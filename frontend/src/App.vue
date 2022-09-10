@@ -21,7 +21,8 @@
 					<LocaleSwitcher></LocaleSwitcher>
 				</div>
 				<div class="navbar-item">
-					<router-link to="/login" class="button is-light">{{$t('navbar.login')}}</router-link>
+					<router-link v-if="this.$store.state.isAuthenticated" to="/profile" >profile</router-link>
+					<router-link v-else to="/login" class="button is-light">{{$t('navbar.login')}}</router-link>
 				</div>
 			</div>
 		</div>
@@ -30,12 +31,22 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPaw } from '@fortawesome/free-solid-svg-icons'
 library.add(faPaw)
 import LocaleSwitcher from './components/LocaleSwitcher.vue'
 
 export default {
+	beforeCreate() {
+		this.$store.commit('initializeStore')
+		const token = this.$store.state.token
+		if (token) {
+			axios.defaults.headers.common['Authorization'] = "Token " + token
+		} else {
+			axios.defaults.headers.common['Authorization'] = ""
+		}
+	},
 	data() {
 		return {
 			showMobileMenu: false,

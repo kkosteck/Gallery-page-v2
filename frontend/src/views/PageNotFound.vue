@@ -1,11 +1,14 @@
 <template lang="">
     <div class="hero is-halfheight">
-        <div class="hero-body is-flex is-justify-content-center is-size-1">
+        <div class="hero-body is-flex is-justify-content-center">
             <div class='rows'>
-                <div class="row is-flex is-justify-content-center">
+                <div class="row is-flex is-justify-content-center is-size-1">
                     <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="3x" />
                 </div>
-                <div class="row is-text-centered">{{$t('pageNotFound')}}</div>
+                <div class="row is-text-centered is-size-1">{{$t('pageNotFound')}}</div>
+                <div class="row is-flex is-justify-content-center">
+                    Go&nbsp;<a @click="$router.go(-1)">back</a>&nbsp;to previous page
+                </div>
             </div>
         </div>
     </div>

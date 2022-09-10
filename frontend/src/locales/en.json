@@ -1,0 +1,24 @@
+{
+	"navbar": {
+		"gallery": "Gallery",
+		"images": "Images",
+		"videos": "Videos",
+		"login": "Login"
+	},
+	"homePage": {
+        "title": "Max gallery!",
+		"gallery": "Gallery",
+		"images": "Images",
+		"videos": "Videos"
+	},
+    "pageNotFound": "Page doesn't exist!",
+	"imagesPage": {
+		"headers": {
+			"title": "Title",
+			"description": "Description",
+			"image": "Image",
+			"created": "Creation date",
+			"modified": "Modification date"
+		}
+	}
+}

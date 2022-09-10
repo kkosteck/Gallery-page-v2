@@ -1,0 +1,24 @@
+{
+	"navbar": {
+        "gallery": "Galeria",
+        "images": "Zdjęcia",
+        "videos": "Filmy",
+		"login": "Zaloguj się"
+	},
+	"homePage": {
+        "title": "Galeria Maksymiliana!",
+        "gallery": "Galeria",
+        "images": "Zdjęcia",
+        "videos": "Filmy"
+	},
+    "pageNotFound": "Strona nie istnieje!",
+	"imagesPage": {
+		"headers": {
+			"title": "Tytuł",
+			"description": "Opis",
+			"image": "Zdjęcie",
+			"created": "Data utworzenia",
+			"modified": "Data modyfikacji"
+		}
+	}
+}

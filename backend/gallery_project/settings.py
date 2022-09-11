@@ -15,7 +15,8 @@ if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
     ALLOWED_HOSTS = []
 else:
-    CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS", "").split(";")
+    if os.environ.get("CORS_ALLOWED_ORIGINS", ""):
+        CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS", "").split(";")
     ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(";")
 
 # Application definition

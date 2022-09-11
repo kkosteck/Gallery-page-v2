@@ -8,7 +8,7 @@ import App from './App.vue'
 // fontAwesome
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 document.title = "Maksiak"
-axios.defaults.baseURL = process.env.backendUrl || "http://127.0.0.1:8000"
+axios.defaults.baseURL = process.env.VUE_APP_BACKEND_URL || "http://127.0.0.1:8000"
 createApp(App)
     .use(i18n)
     .use(store)

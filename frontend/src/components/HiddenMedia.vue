@@ -1,16 +1,20 @@
 <template>
     <a @click="showModal = true">{{title}}</a>
     <Modal v-if="showModal" @close="showModal = false">
-        <img v-bind:src="url" alt="" class="box responsive">
+        <video v-if="type=='video'" controls class="box responsive-video">
+            <source v-bind:src="url" type="video/mp4">
+        </video> 
+        <img v-else v-bind:src="url" alt="" class="box responsive">
     </Modal>
 </template>
 <script>
 import Modal from './Modal.vue';
 export default {
-    name: "HiddenImage",
+    name: "HiddenMedia",
     props: [
         "title",
-        "url"
+        "url",
+        "type"
     ],
     components: {
         Modal
@@ -24,7 +28,13 @@ export default {
 </script>
 <style scoped>
     .responsive {
+        margin: auto;
         width: auto;
         height: 100%;
+    }
+    .responsive-video {
+        margin: auto;
+        width: inherit;
+        height: inherit;
     }
 </style>

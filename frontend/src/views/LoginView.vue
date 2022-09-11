@@ -60,7 +60,7 @@ export default {
                 password: this.password
             }
             await axios
-                .post("/api/token/login/", formData)
+                .post("/api/token/login", formData)
                 .then(response => {
                     const token = response.data.auth_token
                     this.$store.commit('setToken', token)

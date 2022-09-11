@@ -29,6 +29,7 @@
 <script>
 import axios from 'axios'
 import HiddenImage from '@/components/HiddenImage.vue'
+import { showErrorToast } from '@/composables/showErrorToast'
 
 export default {
     name: "Images",
@@ -52,7 +53,7 @@ export default {
                 this.images = response.data
                 this.isVerified = true
             }).catch(error =>{
-                console.log(error)
+                showErrorToast(error)
             })
         },
     }

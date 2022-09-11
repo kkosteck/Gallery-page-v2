@@ -67,6 +67,15 @@ export default {
                     
                     axios.defaults.headers.common["Authorization"] = "token " + token
                     localStorage.setItem("token", token)
+
+                    axios.get("/api/users/me").then(response => {
+                        const permissions = {
+                            isVerified: response.data.verified
+                        }
+                        this.$store.commit('setPermissions', permissions)
+                        localStorage.setItem("permissions", JSON.stringify(permissions))
+                    })
+
                     const toPath = this.$route.query.to || '/'
                     this.$router.push(toPath)
                 })
@@ -77,8 +86,6 @@ export default {
                         }
                     } else {
                         this.errors.push('Something went wrong. Please try again')
-                        
-                        console.log(JSON.stringify(error))
                     }
                 })
         }

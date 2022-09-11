@@ -1,7 +1,7 @@
 <template>
 	<nav class="navbar is-warning" role="navigation" aria-label="main navigation">
 		<div class="navbar-brand">
-			<router-link to="/" class="navbar-item is-light">
+			<router-link to="/" class="navbar-item">
 				<font-awesome-icon icon="fa-solid fa-paw" size="2x"/>
 			</router-link>
 			<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu" @click="showMobileMenu = !showMobileMenu">
@@ -12,9 +12,10 @@
 		</div>
 		<div id="navbar-menu" class="navbar-menu" v-bind:class="{'is-active': showMobileMenu }">
 			<div class="navbar-start">
-				<router-link to="/images" class="navbar-item is-light">{{$t('navbar.images')}}</router-link>
-				<router-link to="/videos" class="navbar-item is-light">{{$t('navbar.videos')}}</router-link>
-				<router-link to="/gallery" class="navbar-item is-light">{{$t('navbar.gallery')}}</router-link>
+				<router-link to="/images" class="navbar-item">{{$t('navbar.images')}}</router-link>
+				<router-link to="/videos" class="navbar-item">{{$t('navbar.videos')}}</router-link>
+				<router-link to="/gallery" class="navbar-item">{{$t('navbar.gallery')}}</router-link>
+				<router-link v-if="this.$store.state.permissions.isVerified" to="/add" class="navbar-item">{{$t('navbar.add')}}</router-link>
 			</div>
 			<div class="navbar-end">
 				<div class="navbar-item">
@@ -45,7 +46,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-regular-svg-icons'
 library.add(faPaw, faUser)
-import LocaleSwitcher from './components/LocaleSwitcher.vue'
+import LocaleSwitcher from '@/components/LocaleSwitcher.vue'
+import { showErrorToast } from '@/composables/showErrorToast'
 
 export default {
 	beforeCreate() {
@@ -67,9 +69,16 @@ export default {
 	},
 	methods: {
 		logout(){
-			this.$store.commit('removeToken')
-			localStorage.removeItem("token")
-			this.$router.push('/')
+			axios.post("api/token/logout/")
+                .then(response => {
+                    delete axios.defaults.headers.common["Authorization"]
+					this.$store.commit('removeToken')
+					localStorage.removeItem("token")
+					this.$router.push('/')
+                })
+                .catch(error => {
+					showErrorToast(error)
+                })
 		}
 	}
 }

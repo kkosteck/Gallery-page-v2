@@ -55,6 +55,13 @@ export default {
 		const token = this.$store.state.token
 		if (token) {
 			axios.defaults.headers.common['Authorization'] = "Token " + token
+			axios.get("/api/users/me").then(response => {
+				const permissions = {
+					isVerified: response.data.verified
+				}
+				this.$store.commit('setPermissions', permissions)
+				localStorage.setItem("permissions", JSON.stringify(permissions))
+			})
 		} else {
 			axios.defaults.headers.common['Authorization'] = ""
 		}
@@ -69,16 +76,14 @@ export default {
 	},
 	methods: {
 		logout(){
-			axios.post("api/token/logout/")
-                .then(response => {
-                    delete axios.defaults.headers.common["Authorization"]
-					this.$store.commit('removeToken')
-					localStorage.removeItem("token")
-					this.$router.push('/')
-                })
-                .catch(error => {
-					showErrorToast(error)
-                })
+			axios.post("api/token/logout/").then(response => {
+				delete axios.defaults.headers.common["Authorization"]
+				this.$store.commit('removeToken')
+				localStorage.removeItem("token")
+				this.$router.push('/')
+			}).catch(error => {
+				showErrorToast(error)
+			})
 		}
 	}
 }

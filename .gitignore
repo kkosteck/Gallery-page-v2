@@ -130,6 +130,7 @@ dmypy.json
 
 .vscode/
 /backend/media/
+/backend/static/
 node_modules/
 
 .DS_Store

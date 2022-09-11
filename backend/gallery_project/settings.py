@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -14,6 +15,9 @@ DEBUG = int(os.environ.get("DEBUG", 0))
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
     ALLOWED_HOSTS = []
+else:
+    ALLOWED_HOSTS = json.loads(os.environ.get("CORS_ALLOWED_ORIGINS")).split(";")
+    CORS_ALLOWED_ORIGINS = json.loads(os.environ.get("ALLOWED_HOSTS")).split(";")
 
 # Application definition
 
@@ -67,24 +71,12 @@ WSGI_APPLICATION = 'gallery_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get("DB_NAME"),
-            'USER': 'postgres',
-            'PASSWORD': os.environ.get("DB_PASSWORD"),
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
-        }
-    }
+}
 
 
 # Password validation

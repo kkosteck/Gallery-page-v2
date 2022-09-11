@@ -2,7 +2,7 @@
 	<nav class="navbar is-warning" role="navigation" aria-label="main navigation">
 		<div class="navbar-brand">
 			<router-link to="/" class="navbar-item is-light">
-				<font-awesome-icon icon="fa-solid fa-paw" size="3x"/>
+				<font-awesome-icon icon="fa-solid fa-paw" size="2x"/>
 			</router-link>
 			<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu" @click="showMobileMenu = !showMobileMenu">
 				<span aria-hidden="true"></span>
@@ -20,9 +20,18 @@
 				<div class="navbar-item">
 					<LocaleSwitcher></LocaleSwitcher>
 				</div>
-				<div class="navbar-item">
-					<router-link v-if="this.$store.state.isAuthenticated" to="/profile" >profile</router-link>
-					<router-link v-else to="/login" class="button is-light">{{$t('navbar.login')}}</router-link>
+				<div v-if="this.$store.state.isAuthenticated" class="navbar-item has-dropdown is-hoverable">
+					<div class="navbar-item">
+						<font-awesome-icon icon="fa-regular fa-user" size="2x" />
+					</div>
+					<div class="navbar-dropdown is-right">
+						<router-link class="navbar-item" to="/profile">Profile</router-link>
+						<hr class="navbar-divider">
+						<a class="navbar-item" @click="logout()">Logout</a>
+					</div>
+				</div>
+				<div v-else class="navbar-item">
+					<router-link to="/login" class="button is-light">{{$t('navbar.login')}}</router-link>
 				</div>
 			</div>
 		</div>
@@ -34,7 +43,8 @@
 import axios from 'axios'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPaw } from '@fortawesome/free-solid-svg-icons'
-library.add(faPaw)
+import { faUser } from '@fortawesome/free-regular-svg-icons'
+library.add(faPaw, faUser)
 import LocaleSwitcher from './components/LocaleSwitcher.vue'
 
 export default {
@@ -54,6 +64,13 @@ export default {
 	},
 	components: {
 		LocaleSwitcher
+	},
+	methods: {
+		logout(){
+			this.$store.commit('removeToken')
+			localStorage.removeItem("token")
+			this.$router.push('/')
+		}
 	}
 }
 </script>

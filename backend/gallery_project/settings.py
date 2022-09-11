@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -16,8 +15,8 @@ if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
     ALLOWED_HOSTS = []
 else:
-    CORS_ALLOWED_ORIGINS = json.loads(os.environ.get("CORS_ALLOWED_ORIGINS", "")).split(";")
-    ALLOWED_HOSTS = json.loads(os.environ.get("ALLOWED_HOSTS", "")).split(";")
+    CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS", "").split(";")
+    ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(";")
 
 # Application definition
 

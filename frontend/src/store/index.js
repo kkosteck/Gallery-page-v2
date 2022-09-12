@@ -5,6 +5,7 @@ export default createStore({
 		isAuthenticated: false,
 		token: '',
 		isLoading: false,
+		permissions: {},
 	},
 	getters: {
 	},
@@ -13,8 +14,11 @@ export default createStore({
 		if (localStorage.getItem('token')) {
 			state.token = localStorage.getItem('token')
 			state.isAuthenticated = true
+
+			state.permissions = JSON.parse(localStorage.getItem('permissions'))
 		} else {
 			state.token = ''
+			state.permissions = {}
 			state.isAuthenticated = false
 		}
 		},
@@ -29,6 +33,9 @@ export default createStore({
 			state.token = ''
 			state.isAuthenticated = false
 		},
+		setPermissions(state, permissions){
+			state.permissions = permissions
+		}
 	},
 	actions: {
 	},

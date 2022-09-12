@@ -4,6 +4,7 @@ import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import SignupView from '@/views/SignupView.vue'
 import ProfileView from '@/views/ProfileView.vue'
+import AddView from '@/views/AddView.vue'
 import PageNotFound from '@/views/PageNotFound.vue'
 
 const routes = [
@@ -12,6 +13,7 @@ const routes = [
 	{ path: '/login', name: 'login', component: LoginView },
 	{ path: '/signup', name: 'signup', component: SignupView },
 	{ path: '/profile', name: 'profile', component: ProfileView },
+	{ path: '/add', name: 'add', component: AddView },
 	{ path: '/:pathMatch(.*)', component: PageNotFound },
 ]
 

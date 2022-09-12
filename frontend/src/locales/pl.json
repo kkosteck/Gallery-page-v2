@@ -3,7 +3,8 @@
         "gallery": "Galeria",
         "images": "Zdjęcia",
         "videos": "Filmy",
-		"login": "Zaloguj się"
+		"login": "Zaloguj się",
+		"add": "Dodaj"
 	},
 	"homePage": {
         "title": "Galeria Maksymiliana!",

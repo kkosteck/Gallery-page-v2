@@ -3,7 +3,8 @@
 		"gallery": "Gallery",
 		"images": "Images",
 		"videos": "Videos",
-		"login": "Login"
+		"login": "Login",
+		"add": "Add"
 	},
 	"homePage": {
         "title": "Max gallery!",

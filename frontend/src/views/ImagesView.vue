@@ -14,7 +14,7 @@
             <tr v-for="image in images">
                 <td>{{image.id}}</td>
                 <td>
-                    <HiddenImage v-bind:title="image.title" v-bind:url="image.image"></HiddenImage>
+                    <HiddenMedia v-bind:title="image.title" v-bind:url="image.image"></HiddenMedia>
                 </td>
                 <td>{{image.description}}</td>
                 <td>{{image.created.split("T")[0]}}</td>
@@ -28,7 +28,7 @@
 </template>
 <script>
 import axios from 'axios'
-import HiddenImage from '@/components/HiddenImage.vue'
+import HiddenMedia from '@/components/HiddenMedia.vue'
 
 export default {
     name: "Images",
@@ -40,7 +40,7 @@ export default {
         }
     },
     components: {
-        HiddenImage
+        HiddenMedia
     },
     mounted() {
         this.isAuthenticated = this.$store.state.isAuthenticated
@@ -48,11 +48,12 @@ export default {
     },
     methods: {
         getAllImages(){
+            this.$store.commit('setIsLoading', false)
             axios.get("/api/images").then(response =>{
                 this.images = response.data
                 this.isVerified = true
-            }).catch(error =>{
-                console.log(error)
+            }).finally(() => {
+                this.$store.commit('setIsLoading', false)
             })
         },
     }

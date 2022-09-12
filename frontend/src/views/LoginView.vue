@@ -59,6 +59,7 @@ export default {
                 username: this.username,
                 password: this.password
             }
+            this.$store.commit('setIsLoading', true)
             await axios
                 .post("/api/token/login", formData)
                 .then(response => {
@@ -79,6 +80,8 @@ export default {
                     } else {
                         this.errors.push('Something went wrong. Please try again')
                     }
+                }).finally(() => {
+                    this.$store.commit('setIsLoading', false)
                 })
         }
     }

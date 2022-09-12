@@ -29,7 +29,6 @@
 <script>
 import axios from 'axios'
 import HiddenMedia from '@/components/HiddenMedia.vue'
-import { showErrorToast } from '@/composables/showErrorToast'
 
 export default {
     name: "Images",
@@ -49,11 +48,12 @@ export default {
     },
     methods: {
         getAllImages(){
+            this.$store.commit('setIsLoading', false)
             axios.get("/api/images").then(response =>{
                 this.images = response.data
                 this.isVerified = true
-            }).catch(error =>{
-                showErrorToast(error)
+            }).finally(() => {
+                this.$store.commit('setIsLoading', false)
             })
         },
     }

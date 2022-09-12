@@ -38,6 +38,7 @@
 		</div>
 	</nav>
 	<router-view></router-view>
+	<LoadingSpinner v-if="this.$store.state.isLoading"></LoadingSpinner>
 </template>
 
 <script>
@@ -47,6 +48,7 @@ import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-regular-svg-icons'
 library.add(faPaw, faUser)
 import LocaleSwitcher from '@/components/LocaleSwitcher.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { showErrorToast } from '@/composables/showErrorToast'
 
 export default {
@@ -55,16 +57,28 @@ export default {
 		const token = this.$store.state.token
 		if (token) {
 			axios.defaults.headers.common['Authorization'] = "Token " + token
+		} else {
+			axios.defaults.headers.common['Authorization'] = ""
+		}
+	},
+	watch:{
+		$route (to, from){
 			axios.get("/api/users/me").then(response => {
 				const permissions = {
 					isVerified: response.data.verified
 				}
 				this.$store.commit('setPermissions', permissions)
 				localStorage.setItem("permissions", JSON.stringify(permissions))
+			}).catch(error => {
+				if (error.response.status == 401){
+					delete axios.defaults.headers.common["Authorization"]
+					this.$store.commit('removeToken')
+					localStorage.removeItem("token")
+					this.$store.commit('setPermissions', {})
+					localStorage.removeItem("permissions")
+				}
 			})
-		} else {
-			axios.defaults.headers.common['Authorization'] = ""
-		}
+    	},
 	},
 	data() {
 		return {
@@ -72,7 +86,8 @@ export default {
 		}
 	},
 	components: {
-		LocaleSwitcher
+		LocaleSwitcher,
+		LoadingSpinner
 	},
 	methods: {
 		logout(){
@@ -80,9 +95,9 @@ export default {
 				delete axios.defaults.headers.common["Authorization"]
 				this.$store.commit('removeToken')
 				localStorage.removeItem("token")
+				this.$store.commit('setPermissions', {})
+				localStorage.removeItem("permissions")
 				this.$router.push('/')
-			}).catch(error => {
-				showErrorToast(error)
 			})
 		}
 	}

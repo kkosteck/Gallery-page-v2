@@ -38,7 +38,7 @@
 
                     <hr>
 
-                    Or <router-link to="/log-in">click here</router-link> to log in!
+                    Or <router-link to="/login">click here</router-link> to log in!
                 </form>
             </div>
         </div>
@@ -60,6 +60,7 @@ export default {
     },
     methods: {
         submitForm() {
+            this.$store.commit('setIsLoading', true)
             this.errors = []
             if (this.username === '') {
                 this.errors.push('The username is missing')
@@ -75,9 +76,7 @@ export default {
                     username: this.username,
                     password: this.password
                 }
-                axios
-                    .post("/api/users/", formData)
-                    .then(response => {
+                axios.post("/api/users", formData).then(response => {
                         toast({
                             message: 'Account created, please log in!',
                             type: 'is-success',

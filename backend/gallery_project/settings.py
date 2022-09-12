@@ -13,7 +13,7 @@ DEBUG = int(os.environ.get("DEBUG", 0))
 
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['*']
 else:
     if os.environ.get("CORS_ALLOWED_ORIGINS", ""):
         CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS", "").split(";")

@@ -1,5 +1,5 @@
 <template>
-    <a @click="showModal = true">{{title}}</a>
+    <a class="has-tooltip-warning" v-bind:data-tooltip="title" @click="showModal = true">show</a>
     <Modal v-if="showModal" @close="showModal = false">
         <video v-if="type=='video'" controls class="box responsive-video">
             <source v-bind:src="url" type="video/mp4">

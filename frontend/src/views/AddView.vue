@@ -1,69 +1,66 @@
 <template>
-    <div class="page-log-in">
-        <div class="columns">
-            <div class="column is-4 is-offset-4 mt-5">
-                <h1 class="title">Import</h1>
-
-                <form @submit.prevent="submitForm">
-                    <table v-if="uploads.length" class="table is-striped is-hoverable is-fullwidth is-bordered">
-                        <thead>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Filename</th>
-                            <th>Delete</th>
-                        </thead>
-                        <tbody>
-                            <tr v-for="upload in uploads" v-bind:key="upload">
-                                <td>
-                                    <div class="field">
-                                        <div class="control">
-                                            <input type="text" class="input" v-model="upload.title">
-                                        </div>
+    <div class="columns is-flex is-justify-content-center">
+        <div class="column is-half">
+            <h1 class="row title">Import</h1>
+            <form @submit.prevent="submitForm">
+                <table v-if="uploads.length" class="table is-striped is-hoverable is-fullwidth is-bordered">
+                    <thead>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Filename</th>
+                        <th>Delete</th>
+                    </thead>
+                    <tbody>
+                        <tr v-for="upload in uploads" v-bind:key="upload">
+                            <td>
+                                <div class="field">
+                                    <div class="control">
+                                        <input type="text" class="input" v-model="upload.title">
                                     </div>
-                                </td>
-                                <td>
-                                    <div class="field">
-                                        <div class="control">
-                                            <textarea class="textarea" v-model="upload.description" rows="1"></textarea>
-                                        </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field">
+                                    <div class="control">
+                                        <textarea class="textarea" v-model="upload.description" rows="1"></textarea>
                                     </div>
-                                </td>
-                                <td>
-                                    <HiddenMedia v-bind:title="upload.file.name" v-bind:url="upload.url" v-bind:type="upload.type"></HiddenMedia>
-                                </td>
-                                <td>
-                                    <div class="is-flex is-justify-content-center">
-                                        <font-awesome-icon class="is-clickable" icon="fa-solid fa-trash" color="red" @click="removeFile(upload, $event)" />
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="field">
-                        <label class="file-label">
-                            <span class="file-cta"> 
-                                <input class="file-input is-clickable" type="file" multiple @change="handleFiles" accept="image/png,image/gif,image/jpeg,video/mp4,video/x-m4v,video/">
-                                <span class="file-icon">
-                                    <font-awesome-icon icon="fa-solid fa-upload" />
-                                </span>
-                                <span class="file-label">
-                                    Choose a files…
-                                </span>
+                                </div>
+                            </td>
+                            <td>
+                                <HiddenMedia v-bind:title="upload.file.name" v-bind:url="upload.url" v-bind:type="upload.type"></HiddenMedia>
+                            </td>
+                            <td>
+                                <div class="is-flex is-justify-content-center">
+                                    <font-awesome-icon class="is-clickable" icon="fa-solid fa-trash" color="red" @click="removeFile(upload, $event)" />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="field">
+                    <label class="file-label">
+                        <span class="file-cta"> 
+                            <input class="file-input is-clickable" type="file" multiple @change="handleFiles" accept="image/png,image/gif,image/jpeg,video/mp4,video/x-m4v,video/">
+                            <span class="file-icon">
+                                <font-awesome-icon icon="fa-solid fa-upload" />
                             </span>
-                        </label>
-                    </div>
+                            <span class="file-label">
+                                Choose a files…
+                            </span>
+                        </span>
+                    </label>
+                </div>
 
-                    <div class="notification is-danger" v-if="errors.length">
-                        <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
-                    </div>
+                <div class="notification is-danger" v-if="errors.length">
+                    <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
+                </div>
 
-                    <div class="field">
-                        <div class="control">
-                            <button :disabled="!uploads.length" class="button is-warning">Import</button>
-                        </div>
+                <div class="field">
+                    <div class="control">
+                        <button :disabled="!uploads.length" class="button is-warning">Import</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </template>

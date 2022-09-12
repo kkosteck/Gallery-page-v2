@@ -37,7 +37,9 @@
 			</div>
 		</div>
 	</nav>
-	<router-view></router-view>
+    <div class="container p-5">
+		<router-view></router-view>
+    </div>
 	<LoadingSpinner v-if="this.$store.state.isLoading"></LoadingSpinner>
 </template>
 
@@ -49,7 +51,7 @@ import { faUser } from '@fortawesome/free-regular-svg-icons'
 library.add(faPaw, faUser)
 import LocaleSwitcher from '@/components/LocaleSwitcher.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
-import { showErrorToast } from '@/composables/showErrorToast'
+import "@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css"
 
 export default {
 	beforeCreate() {

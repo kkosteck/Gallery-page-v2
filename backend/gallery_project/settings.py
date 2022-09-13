@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv()
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
@@ -146,5 +146,35 @@ REST_FRAMEWORK = {
 DJOSER = {
     'SERIALIZERS': {
         'current_user': 'accounts_app.serializers.ExtendedUserSerializer',
+    },
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'warning.log',
+            'formatter': 'verbose',
+        },
+    },    
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module}: {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
     },
 }

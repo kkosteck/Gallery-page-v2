@@ -72,13 +72,12 @@ export default {
 				this.$store.commit('setPermissions', permissions)
 				localStorage.setItem("permissions", JSON.stringify(permissions))
 			}).catch(error => {
-				console.log("TEST perms")
 				if (error.response.status == 401){
-					delete axios.defaults.headers.common["Authorization"]
-					this.$store.commit('removeToken')
-					localStorage.removeItem("token")
-					this.$store.commit('setPermissions', {})
-					localStorage.removeItem("permissions")
+					// delete axios.defaults.headers.common["Authorization"]
+					// this.$store.commit('removeToken')
+					// localStorage.removeItem("token")
+					// this.$store.commit('setPermissions', {})
+					// localStorage.removeItem("permissions")
 				}
 			})
     	},

@@ -6,14 +6,8 @@ name: Deploy to Firebase Hosting
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-    types:
-      - closed
 jobs:
   build_and_deploy:
-    if: ${{ github.event.pull_request.merged == true || github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

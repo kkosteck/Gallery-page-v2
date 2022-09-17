@@ -29,7 +29,7 @@ jobs:
       run: |
         python ./backend/manage.py test
   deploy:
-    if: github.event.pull_request.merged == true
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     env:
       SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}

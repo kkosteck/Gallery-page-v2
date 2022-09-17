@@ -69,7 +69,7 @@ export default {
                     username: this.username,
                     password: this.password
                 }
-                axios.post("/api/users", formData).then(response => {
+                axios.post("/api/users/", formData).then(response => {
                         toast({
                             message: 'Account created, please log in!',
                             type: 'is-success',
@@ -81,13 +81,16 @@ export default {
                         this.$router.push('/login')
                     })
                     .catch(error => {
+                        console.log(error)
                         if (error.response) {
                             for (const property in error.response.data) {
-                                this.errors.push(`${property}: ${error.response.data[property]}`)
+                                this.errors.push(`${error.response.data[property]}`)
                             }
                         } else if (error.message) {
                             this.errors.push('Something went wrong. Please try again')
                         }
+                    }).finally(()=>{
+                        this.$store.commit('setIsLoading', false)
                     })
             }
         }

@@ -109,7 +109,7 @@ export default {
                     "description": upload.description,
                     "file": upload.file
                 }
-                axios.post("/api/images", formData, { 
+                axios.post("/api/images/", formData, { 
                     headers: {
                     'Content-Type': 'multipart/form-data'
                     }

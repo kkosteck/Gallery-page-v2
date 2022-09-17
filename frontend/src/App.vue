@@ -65,7 +65,7 @@ export default {
 	},
 	watch:{
 		$route (to, from){
-			axios.get("/api/users/me").then(response => {
+			axios.get("/api/users/me/").then(response => {
 				const permissions = {
 					isVerified: response.data.verified
 				}

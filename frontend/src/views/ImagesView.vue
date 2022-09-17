@@ -14,7 +14,7 @@
             <tr v-for="image in images">
                 <td>{{image.id}}</td>
                 <td>
-                    <HiddenMedia v-bind:title="image.title" v-bind:url="image.image"></HiddenMedia>
+                    <HiddenMedia v-bind:title="image.title" v-bind:url="image.file"></HiddenMedia>
                 </td>
                 <td>{{image.description}}</td>
                 <td>{{image.created.split("T")[0]}}</td>
@@ -49,7 +49,7 @@ export default {
     methods: {
         getAllImages(){
             this.$store.commit('setIsLoading', false)
-            axios.get("/api/images").then(response =>{
+            axios.get("/api/images/").then(response =>{
                 this.images = response.data
                 this.isVerified = true
             }).finally(() => {

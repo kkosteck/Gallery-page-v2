@@ -81,7 +81,6 @@ export default {
                         this.$router.push('/login')
                     })
                     .catch(error => {
-                        console.log(error)
                         if (error.response) {
                             for (const property in error.response.data) {
                                 this.errors.push(`${error.response.data[property]}`)

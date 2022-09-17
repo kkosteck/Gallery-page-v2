@@ -1,6 +1,6 @@
 <template>
 <div class="is-flex is-justify-content-center p-5">
-    <table v-if="isAuthenticated && isVerified" class="table">
+    <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -22,8 +22,6 @@
             </tr>
         </tbody>
     </table>
-    <p class="is-size-3" v-else-if="isAuthenticated">You have to be verified!</p>
-    <p class="is-size-3" v-else>You have to <RouterLink to="/login">login</RouterLink> in order to see images</p>
 </div>
 </template>
 <script>
@@ -35,28 +33,19 @@ export default {
     data() {
         return {
             images: [],
-            isAuthenticated: false,
-            isVerified: false,
         }
     },
     components: {
         HiddenMedia
     },
     mounted() {
-        this.isAuthenticated = this.$store.state.isAuthenticated
-        this.getAllImages()
-    },
-    methods: {
-        getAllImages(){
+        this.$store.commit('setIsLoading', false)
+        axios.get("/api/images/").then(response =>{
+            this.images = response.data
+        }).finally(() => {
             this.$store.commit('setIsLoading', false)
-            axios.get("/api/images/").then(response =>{
-                this.images = response.data
-                this.isVerified = true
-            }).finally(() => {
-                this.$store.commit('setIsLoading', false)
-            })
-        },
-    }
+        })
+    },
 }
 </script>
 <style scoped>

@@ -40,7 +40,7 @@
 
 <script>
 import axios from 'axios'
-import { toast } from 'bulma-toast'
+import { showToast} from '@/composables/showToast'
 export default {
     name: 'SignUp',
     data() {
@@ -70,27 +70,20 @@ export default {
                     password: this.password
                 }
                 axios.post("/api/users/", formData).then(response => {
-                        toast({
-                            message: 'Account created, please log in!',
-                            type: 'is-success',
-                            dismissible: true,
-                            pauseOnHover: true,
-                            duration: 2000,
-                            position: 'bottom-right',
-                        })
-                        this.$router.push('/login')
-                    })
-                    .catch(error => {
-                        if (error.response) {
-                            for (const property in error.response.data) {
-                                this.errors.push(`${error.response.data[property]}`)
-                            }
-                        } else if (error.message) {
-                            this.errors.push('Something went wrong. Please try again')
+                    showToast('Account created, please log in!', 'is-success')
+                    this.$router.push('/login')
+                })
+                .catch(error => {
+                    if (error.response) {
+                        for (const property in error.response.data) {
+                            this.errors.push(`${error.response.data[property]}`)
                         }
-                    }).finally(()=>{
-                        this.$store.commit('setIsLoading', false)
-                    })
+                    } else if (error.message) {
+                        this.errors.push('Something went wrong. Please try again')
+                    }
+                }).finally(()=>{
+                    this.$store.commit('setIsLoading', false)
+                })
             }
         }
     }

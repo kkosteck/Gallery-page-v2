@@ -18,3 +18,14 @@ export function showErrorToast(error){
         toast(toastData)
     }
 }
+
+export function showToast(message, theme){
+    toast({
+        message: message,
+        type: theme,
+        dismissible: true,
+        pauseOnHover: true,
+        duration: 2000,
+        position: 'bottom-right',
+    })
+}

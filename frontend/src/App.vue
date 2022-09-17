@@ -15,13 +15,13 @@
 				<router-link to="/images" class="navbar-item">{{$t('navbar.images')}}</router-link>
 				<router-link to="/videos" class="navbar-item">{{$t('navbar.videos')}}</router-link>
 				<router-link to="/gallery" class="navbar-item">{{$t('navbar.gallery')}}</router-link>
-				<router-link v-if="this.$store.state.permissions.isVerified" to="/add" class="navbar-item">{{$t('navbar.add')}}</router-link>
+				<router-link v-if="this.$store.state.permissions.verified" to="/add" class="navbar-item">{{$t('navbar.add')}}</router-link>
 			</div>
 			<div class="navbar-end">
 				<div class="navbar-item">
 					<LocaleSwitcher></LocaleSwitcher>
 				</div>
-				<div v-if="this.$store.state.isAuthenticated" class="navbar-item has-dropdown is-hoverable">
+				<div v-if="this.$store.state.permissions.authenticated" class="navbar-item has-dropdown is-hoverable">
 					<div class="navbar-item">
 						<font-awesome-icon icon="fa-regular fa-user" size="2x" />
 					</div>
@@ -38,7 +38,9 @@
 		</div>
 	</nav>
     <div class="container p-5">
-		<router-view></router-view>
+		<CheckPermissions>
+			<router-view></router-view>
+		</CheckPermissions>
     </div>
 	<LoadingSpinner v-if="this.$store.state.isLoading"></LoadingSpinner>
 </template>
@@ -51,6 +53,7 @@ import { faUser } from '@fortawesome/free-regular-svg-icons'
 library.add(faPaw, faUser)
 import LocaleSwitcher from '@/components/LocaleSwitcher.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import CheckPermissions from '@/components/CheckPermissions.vue'
 import "@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css"
 
 export default {
@@ -63,25 +66,6 @@ export default {
 			axios.defaults.headers.common['Authorization'] = ""
 		}
 	},
-	watch:{
-		$route (to, from){
-			axios.get("/api/users/me/").then(response => {
-				const permissions = {
-					isVerified: response.data.verified
-				}
-				this.$store.commit('setPermissions', permissions)
-				localStorage.setItem("permissions", JSON.stringify(permissions))
-			}).catch(error => {
-				if (error.response.status == 401){
-					delete axios.defaults.headers.common["Authorization"]
-					this.$store.commit('removeToken')
-					localStorage.removeItem("token")
-					this.$store.commit('setPermissions', {})
-					localStorage.removeItem("permissions")
-				}
-			})
-    	},
-	},
 	data() {
 		return {
 			showMobileMenu: false,
@@ -89,10 +73,12 @@ export default {
 	},
 	components: {
 		LocaleSwitcher,
-		LoadingSpinner
+		LoadingSpinner,
+		CheckPermissions,
 	},
 	methods: {
 		logout(){
+            this.$store.commit('setIsLoading', true)
 			axios.post("api/token/logout/").then(response => {
 				delete axios.defaults.headers.common["Authorization"]
 				this.$store.commit('removeToken')
@@ -100,6 +86,8 @@ export default {
 				this.$store.commit('setPermissions', {})
 				localStorage.removeItem("permissions")
 				this.$router.push('/')
+			}).finally(() => {
+				this.$store.commit('setIsLoading', false)
 			})
 		}
 	}

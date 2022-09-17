@@ -20,14 +20,13 @@ class ImagesView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            Image.objects.create(
-                title = serializer.data.get("title"),
-                description = serializer.data.get("description"),
+            image = Image.objects.create(
+                title = serializer.data.get("title") or "",
+                description = serializer.data.get("description") or "",
                 file = request.FILES["file"],
             )
-        else:
-            return Response(
-                data = serializer.errors,
-                status = status.HTTP_400_BAD_REQUEST
-            )
-        return JsonResponse({"test": "test"})
+            return Response(data = ImageSerializer(image).data)
+        return Response(
+            data = serializer.errors,
+            status = status.HTTP_400_BAD_REQUEST
+        )

@@ -1,0 +1,14 @@
+{
+    "images": [
+        "authenticated",
+        "verified"
+    ],
+    "add": [
+        "authenticated",
+        "verified"
+    ],
+    "gallery": [
+        "authenticated",
+        "verified"
+    ]
+}

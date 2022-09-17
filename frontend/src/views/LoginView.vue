@@ -57,11 +57,13 @@ export default {
             await axios
                 .post("/api/token/login", formData)
                 .then(response => {
+				    console.log("TEST login")
                     const token = response.data.auth_token
                     this.$store.commit('setToken', token)
                     
                     axios.defaults.headers.common["Authorization"] = "token " + token
                     localStorage.setItem("token", token)
+                    console.log(localStorage)
 
                     const toPath = this.$route.query.to || '/'
                     this.$router.push(toPath)

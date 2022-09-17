@@ -14,8 +14,7 @@ export default createStore({
 		if (localStorage.getItem('token')) {
 			state.token = localStorage.getItem('token')
 			state.isAuthenticated = true
-
-			state.permissions = JSON.parse(localStorage.getItem('permissions'))
+			state.permissions = JSON.parse(localStorage.getItem('permissions')) ?? {}
 		} else {
 			state.token = ''
 			state.permissions = {}

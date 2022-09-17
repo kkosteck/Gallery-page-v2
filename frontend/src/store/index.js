@@ -2,7 +2,6 @@ import { createStore } from 'vuex'
 
 export default createStore({
 	state: {
-		isAuthenticated: false,
 		token: '',
 		isLoading: false,
 		permissions: {},
@@ -13,12 +12,10 @@ export default createStore({
 		initializeStore(state) {
 		if (localStorage.getItem('token')) {
 			state.token = localStorage.getItem('token')
-			state.isAuthenticated = true
-			state.permissions = JSON.parse(localStorage.getItem('permissions')) ?? {}
+			state.permissions = JSON.parse(localStorage.getItem('permissions')) ?? {authenticated: true}
 		} else {
 			state.token = ''
 			state.permissions = {}
-			state.isAuthenticated = false
 		}
 		},
 		setIsLoading(state, status) {
@@ -26,11 +23,11 @@ export default createStore({
 		},
 		setToken(state, token) {
 			state.token = token
-			state.isAuthenticated = true
+			state.permissions.authenticated = true
 		},
 		removeToken(state) {
 			state.token = ''
-			state.isAuthenticated = false
+			state.permissions = {}
 		},
 		setPermissions(state, permissions){
 			state.permissions = permissions

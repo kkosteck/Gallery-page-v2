@@ -54,29 +54,26 @@ export default {
                 password: this.password
             }
             this.$store.commit('setIsLoading', true)
-            await axios
-                .post("/api/token/login", formData)
-                .then(response => {
-                    const token = response.data.auth_token
-                    this.$store.commit('setToken', token)
-                    
-                    axios.defaults.headers.common["Authorization"] = "token " + token
-                    localStorage.setItem("token", token)
+            await axios.post("/api/token/login", formData).then(response => {
+                const token = response.data.auth_token
+                this.$store.commit('setToken', token)
+                
+                axios.defaults.headers.common["Authorization"] = "token " + token
+                localStorage.setItem("token", token)
 
-                    const toPath = this.$route.query.to || '/'
-                    this.$router.push(toPath)
-                })
-                .catch(error => {
-                    if (error.response) {
-                        for (const property in error.response.data) {
-                            this.errors.push(`${error.response.data[property]}`)
-                        }
-                    } else {
-                        this.errors.push('Something went wrong. Please try again')
+                const toPath = this.$route.query.to || '/'
+                this.$router.push(toPath)
+            }).catch(error => {
+                if (error.response) {
+                    for (const property in error.response.data) {
+                        this.errors.push(`${error.response.data[property]}`)
                     }
-                }).finally(() => {
-                    this.$store.commit('setIsLoading', false)
-                })
+                } else {
+                    this.errors.push('Something went wrong. Please try again')
+                }
+            }).finally(() => {
+                this.$store.commit('setIsLoading', false)
+            })
         }
     }
 }

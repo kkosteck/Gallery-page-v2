@@ -12,7 +12,7 @@ class BaseModel(models.Model):
 class Image(BaseModel):
     """model which contains all uploaded images"""
     
-    title = models.CharField(max_length=256)
+    title = models.CharField(max_length=256, blank=True)
     description = models.TextField(blank=True)
     file = models.FileField(upload_to='uploads/')
 

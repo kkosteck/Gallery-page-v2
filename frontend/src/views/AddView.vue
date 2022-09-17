@@ -71,7 +71,8 @@ import axios from 'axios'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUpload, faTrash } from '@fortawesome/free-solid-svg-icons'
 library.add(faUpload, faTrash)
-import { showErrorToast } from '@/composables/showErrorToast'
+import { showErrorToast, showToast } from '@/composables/showToast'
+
 export default {
     name: 'AddView',
     data() {
@@ -95,15 +96,10 @@ export default {
             })
         },
         removeFile(upload, event){
-            let parent = event.target.parentElement
-            while (parent.tagName != "TR"){
-                parent = parent.parentElement
-            }
             this.uploads.splice(this.uploads.indexOf(upload), 1)
-            parent.remove()
         },
         submitForm() {
-            this.uploads.forEach(upload => {
+            this.uploads.slice().forEach(upload => {
                 const formData = {
                     "title": upload.title,
                     "description": upload.description,
@@ -114,6 +110,8 @@ export default {
                     'Content-Type': 'multipart/form-data'
                     }
                 }).then(response => {
+                    this.uploads.splice(this.uploads.indexOf(upload), 1)
+                    showToast("File added!", "is-success")
                     console.log(response)
                 }).catch(error => {
                     showErrorToast(error)

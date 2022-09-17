@@ -9,9 +9,9 @@ import App from './App.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 document.title = "Maksiak"
 axios.defaults.baseURL = process.env.VUE_APP_BACKEND_URL || "http://127.0.0.1:8000"
-createApp(App)
-    .use(i18n)
-    .use(store)
-    .use(router)
-    .component('font-awesome-icon', FontAwesomeIcon)
-    .mount('#app')
+const app = createApp(App)
+fetch(process.env.BASE_URL + "permissions.json").then((response) => response.json()).then((config) => {
+    app.provide('permissionsConfig', config)
+}).finally(() => {
+    app.use(i18n).use(store).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+})

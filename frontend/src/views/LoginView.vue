@@ -57,7 +57,6 @@ export default {
             await axios
                 .post("/api/token/login", formData)
                 .then(response => {
-				    console.log("TEST login")
                     const token = response.data.auth_token
                     this.$store.commit('setToken', token)
                     

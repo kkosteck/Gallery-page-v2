@@ -3,7 +3,7 @@
         <div class="video-controls">
             <progress class="progress video-progress is-small is-warning" v-bind:value="current" v-bind:max="total"></progress> 
         </div>
-        <video ref="video" class="image" muted loop @click="videoPlayback" @timeupdate="videoCurrentTime">
+        <video ref="video" class="image" muted autoplay loop @click="videoPlayback" @timeupdate="videoCurrentTime">
             <source v-bind:src="url" type="video/mp4">
         </video>
     </div>

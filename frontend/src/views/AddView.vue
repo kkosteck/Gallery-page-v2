@@ -87,7 +87,6 @@ export default {
     methods: {
         handleFiles(){
             Array.from(event.target.files).forEach(file => {
-                console.log(file.type)
                 this.uploads.push({
                     file: file,
                     url: URL.createObjectURL(file),
@@ -112,7 +111,6 @@ export default {
                 }).then(response => {
                     this.uploads.splice(this.uploads.indexOf(upload), 1)
                     showToast("File added!", "is-success")
-                    console.log(response)
                 }).catch(error => {
                     showErrorToast(error)
                 })

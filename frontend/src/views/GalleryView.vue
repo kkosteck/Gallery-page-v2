@@ -1,15 +1,19 @@
 <template>
 <div class="columns">
     <div class="column m-0 p-0" v-for="column in images">
-        <figure class="image tile p-2" v-for="image in column">
-            <img v-bind:src="image.file" alt="">
-        </figure>
+        <div class="media-container p-2" v-for="media in column">
+            <figure v-if="media.media_type == 'image'" class="image">
+                <img v-bind:src="media.file" v-bind:alt="media.title">
+            </figure>
+            <VideoTile v-else-if="media.media_type=='video'" v-bind:url="media.file"></VideoTile>
+        </div>
     </div>
 </div>
 </template>
 <script>
 import axios from 'axios'
 import { splitArray } from '@/composables/splitArray'
+import VideoTile from '@/components/VideoTile.vue'
 export default {
     name: "Gallery",
     data() {
@@ -24,7 +28,10 @@ export default {
         }).finally(() => {
             this.$store.commit('setIsLoading', false)
         })
-    }
+    },
+    components: {
+        VideoTile,
+    },
 }
 </script>
 <style scoped>

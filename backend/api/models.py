@@ -11,10 +11,15 @@ class BaseModel(models.Model):
 
 class Image(BaseModel):
     """model which contains all uploaded images"""
+    MEDIA_TYPES = [
+        ("image", "Image"),
+        ("video", "Video")
+    ]
     
     title = models.CharField(max_length=256, blank=True)
     description = models.TextField(blank=True)
     file = models.FileField(upload_to='uploads/')
+    media_type = models.CharField(choices=MEDIA_TYPES, max_length = 5)
 
     def __str__(self):
-        return self.title
+        return f"{self.id} - {self.title}"

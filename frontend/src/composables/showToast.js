@@ -10,9 +10,15 @@ export function showErrorToast(error){
         position: 'bottom-right',
     }
     if (error.response && error.response.headers["content-type"] != "text/html") {
-        for (const property in error.response.data) {
-            toastData.message = `${property}: ${error.response.data[property]}`
-            toast(toastData)
+        if (typeof error.response.data == "string"){
+            toastData.message = `${error.response.data}`
+        } else if (typeof error.response.data == "object") {
+            for (const property in error.response.data) {
+                toastData.message = `${error.response.data[property]}`
+                toast(toastData)
+            }
+        } else {
+            toastData.message = 'Something went wrong. Please try again'
         }
     } else {
         toast(toastData)

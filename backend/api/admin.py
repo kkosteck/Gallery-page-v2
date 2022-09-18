@@ -3,4 +3,4 @@ from api.models import Image
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id', 'title', 'description')
